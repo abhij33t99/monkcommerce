@@ -1,0 +1,24 @@
+services:
+
+  monk-commerce:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - monk-commerce-db
+
+  monk-commerce-db:
+    image: postgres
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: monk-commerce
+    ports:
+      - "5432:5432"
+    volumes:
+      - monk-commerce-db-data:/var/lib/postgresql/data
+
+volumes:
+  monk-commerce-db-data:

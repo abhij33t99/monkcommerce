@@ -36,13 +36,11 @@ public class ProductCouponFinder implements CouponFinder {
                     .orElseThrow(() -> new NotFoundException(Field.PRODUCT, pd.getProductId()));
 
             var productDiscountDetails = productDiscountDetailsRepository.findByProduct(product);
-            if (productDiscountDetails.isPresent()) {
-                applicableCoupons.add(DiscountDto.builder()
-                        .couponId(productDiscountDetails.get().getCoupon().getId())
-                        .discount(productDiscountDetails.get().getDiscount() / 100 * pd.getPrice() * pd.getQuantity())
-                        .type(CouponTypeDto.PRODUCT.getType())
-                        .build());
-            }
+            productDiscountDetails.ifPresent(discountDetails -> applicableCoupons.add(DiscountDto.builder()
+                    .couponId(discountDetails.getCoupon().getId())
+                    .discount(discountDetails.getDiscount() / 100 * pd.getPrice() * pd.getQuantity())
+                    .type(CouponTypeDto.PRODUCT.getType())
+                    .build()));
         }
 
         if (next != null) {

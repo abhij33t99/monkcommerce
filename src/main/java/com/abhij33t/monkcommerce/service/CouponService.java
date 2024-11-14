@@ -3,7 +3,6 @@ package com.abhij33t.monkcommerce.service;
 import com.abhij33t.monkcommerce.dto.CartDto;
 import com.abhij33t.monkcommerce.dto.CartWithDiscountDto;
 import com.abhij33t.monkcommerce.dto.CouponDto;
-import com.abhij33t.monkcommerce.dto.CouponTypeDto;
 import com.abhij33t.monkcommerce.dto.Field;
 import com.abhij33t.monkcommerce.exception.NotFoundException;
 import com.abhij33t.monkcommerce.model.Coupon;
@@ -31,7 +30,7 @@ public class CouponService {
         CouponType couponType = couponTypeRepository.findByName(couponRequest.getType().getType())
                 .orElse(
                         couponTypeRepository
-                                .save(CouponType.builder().name(couponRequest.getType().getType()).build()));
+                                .save(CouponType.builder().name(couponRequest.getType()).build()));
         // create coupon
         Coupon coupon = Coupon.builder().couponType(couponType).expirationDate(couponRequest.getExpirationDate())
                 .build();
@@ -47,7 +46,7 @@ public class CouponService {
         // fetch coupon details
         return coupons.stream()
                 .map(c -> fetchCouponDetailsStrategyFactory
-                        .getStrategy(CouponTypeDto.valueOf(c.getCouponType().getName())).fetchCouponDetails(c))
+                        .getStrategy(c.getCouponType().getName()).fetchCouponDetails(c))
                 .toList();
     }
 
@@ -56,7 +55,7 @@ public class CouponService {
         Coupon coupon = couponRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(Field.COUPON, id));
         // fetch coupon details
-        return fetchCouponDetailsStrategyFactory.getStrategy(CouponTypeDto.valueOf(coupon.getCouponType().getName()))
+        return fetchCouponDetailsStrategyFactory.getStrategy(coupon.getCouponType().getName())
                 .fetchCouponDetails(coupon);
     }
 
@@ -67,7 +66,7 @@ public class CouponService {
                 .orElseThrow(() -> new NotFoundException(Field.COUPON, id));
         // fetch coupon details
         var couponDetails = fetchCouponDetailsStrategyFactory
-                .getStrategy(CouponTypeDto.valueOf(coupon.getCouponType().getName())).fetchCouponDetails(coupon);
+                .getStrategy(coupon.getCouponType().getName()).fetchCouponDetails(coupon);
         // delete coupon and its details from db
         couponRepository.delete(coupon);
         return couponDetails;

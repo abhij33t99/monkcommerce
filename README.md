@@ -23,5 +23,7 @@ updated cart with discounted prices for each item.
 * Strategy to create, delete and modify for different coupon types. (less coupling and easily extensive)
 * Chain of Responsibility for finding applicable coupons. (easily extensive)
 
+## Added Postman testcase collection file
+
 ### Assumptions
 For BuyXGeyYCoupon, only 1 product can be discounted.

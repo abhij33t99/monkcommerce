@@ -1,17 +1,14 @@
 package com.abhij33t.monkcommerce.handler;
 
-import java.util.List;
-
-import org.springframework.stereotype.Component;
-
 import com.abhij33t.monkcommerce.dto.CartDto;
-import com.abhij33t.monkcommerce.dto.CouponDto;
 import com.abhij33t.monkcommerce.dto.CouponTypeDto;
 import com.abhij33t.monkcommerce.dto.DiscountDto;
 import com.abhij33t.monkcommerce.model.CartDiscountDetails;
 import com.abhij33t.monkcommerce.repository.CartDiscountDetailsRepository;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -32,7 +29,7 @@ public class CartCouponFinder implements CouponFinder {
                 .map(p -> p.getQuantity() * p.getPrice())
                 .reduce(0.0, Double::sum);
 
-        List<CartDiscountDetails> cartDiscountDetails = cartDiscountDetailsRepository.findByThresoldLessThan(cartTotal);
+        List<CartDiscountDetails> cartDiscountDetails = cartDiscountDetailsRepository.findByThresholdLessThan(cartTotal);
         cartDiscountDetails.stream()
                 .map(cd -> DiscountDto.builder()
                         .couponId(cd.getCoupon().getId())

@@ -5,4 +5,4 @@ down:
 	docker compose down
 
 start_monk:
-	docker compose build && up
+	docker compose build && docker compose up

@@ -9,5 +9,7 @@ import java.util.Optional;
 
 public interface CartDiscountDetailsRepository extends JpaRepository<CartDiscountDetails, Integer> {
     Optional<CartDiscountDetails> findByCoupon(Coupon coupon);
-    List<CartDiscountDetails> findByThresoldLessThan(Double threshold);
+    List<CartDiscountDetails> findByThresholdLessThan(Double threshold);
+
+    void deleteByCoupon(Coupon coupon);
 }

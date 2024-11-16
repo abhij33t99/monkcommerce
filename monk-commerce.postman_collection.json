@@ -1,0 +1,109 @@
+{
+	"info": {
+		"_postman_id": "fe529380-453e-4523-a712-2c427047b06f",
+		"name": "monk-commerce",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "22323259"
+	},
+	"item": [
+		{
+			"name": "add coupon",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"type\": \"BUY_GET\",\n    \"details\": {\n        \"buyProductDetails\": [\n            {\n                \"productId\": 1,\n                \"quantity\": 3\n            },\n            {\n                \"productId\": 2,\n                \"quantity\": 3\n            }\n        ],\n        \"getProductDetails\": [\n            {\n                \"productId\": 3,\n                \"quantity\": 1\n            }   \n        ],\n        \"repetitionLimit\": 2\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8080/coupons"
+			},
+			"response": []
+		},
+		{
+			"name": "get coupons",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "localhost:8080/coupons"
+			},
+			"response": []
+		},
+		{
+			"name": "get coupon by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "localhost:8080/coupons/3"
+			},
+			"response": []
+		},
+		{
+			"name": "delete coupon",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "localhost:8080/coupons/3"
+			},
+			"response": []
+		},
+		{
+			"name": "edit coupon",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"type\": \"CART\",\n    \"expirationDate\": null,\n    \"details\": {\n        \"threshold\": 100.0,\n        \"discount\": 11\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8080/coupons/1"
+			},
+			"response": []
+		},
+		{
+			"name": "get applicable coupons",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"productDetails\": [\n        {\n            \"productId\": 1,\n            \"quantity\": 6,\n            \"price\": 50.0\n        }, // Product X\n        {\n            \"productId\": 2,\n            \"quantity\": 3,\n            \"price\": 30.0\n        }, // Product Y\n        {\n            \"productId\": 3,\n            \"quantity\": 2,\n            \"price\": 25.0\n        } // Product Z\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8080/applicable-coupons"
+			},
+			"response": []
+		},
+		{
+			"name": "apply coupon",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"productDetails\": [\n        {\n            \"productId\": 1,\n            \"quantity\": 6,\n            \"price\": 50.0\n        }, // Product X\n        {\n            \"productId\": 2,\n            \"quantity\": 3,\n            \"price\": 30.0\n        }, // Product Y\n        {\n            \"productId\": 3,\n            \"quantity\": 2,\n            \"price\": 25.0\n        } // Product Z\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8080/apply-coupon/3"
+			},
+			"response": []
+		}
+	]
+}

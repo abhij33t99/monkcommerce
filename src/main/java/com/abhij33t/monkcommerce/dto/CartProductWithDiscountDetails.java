@@ -1,8 +1,10 @@
 package com.abhij33t.monkcommerce.dto;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class CartProductWithDiscountDetails extends CartProductDetails {
     Double totalDiscount;
 

@@ -3,10 +3,10 @@ package com.abhij33t.monkcommerce.controller;
 import com.abhij33t.monkcommerce.dto.CartDto;
 import com.abhij33t.monkcommerce.dto.CartWithDiscountDto;
 import com.abhij33t.monkcommerce.dto.CouponDto;
+import com.abhij33t.monkcommerce.dto.DiscountDto;
 import com.abhij33t.monkcommerce.model.Coupon;
 import com.abhij33t.monkcommerce.service.CouponService;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,7 +45,7 @@ public class CouponController {
     }
 
     @PostMapping("/applicable-coupons")
-    public ResponseEntity<List<CouponDto>> getApplicableCoupons(@RequestBody CartDto cart) {
+    public ResponseEntity<List<DiscountDto>> getApplicableCoupons(@RequestBody CartDto cart) {
         return ResponseEntity.ok(couponService.getApplicableCoupons(cart));
     }
 

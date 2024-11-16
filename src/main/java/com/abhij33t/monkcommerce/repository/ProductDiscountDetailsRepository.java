@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface ProductDiscountDetailsRepository extends JpaRepository<ProductDiscountDetails, Integer> {
     Optional<ProductDiscountDetails> findByCoupon(Coupon coupon);
     Optional<ProductDiscountDetails> findByProduct(Product product);
+    void deleteByCoupon(Coupon coupon);
 }

@@ -1,10 +1,12 @@
 package com.abhij33t.monkcommerce.dto;
 
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+
 import java.util.List;
 
-import lombok.Data;
-
 @Data
+@RequiredArgsConstructor
 public class CartWithDiscountDto {
     private List<CartProductWithDiscountDetails> productDetails;
     private Double totalPrice;

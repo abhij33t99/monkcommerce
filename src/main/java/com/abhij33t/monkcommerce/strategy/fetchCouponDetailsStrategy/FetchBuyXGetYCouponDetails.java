@@ -7,6 +7,7 @@ import com.abhij33t.monkcommerce.dto.ProductDetails;
 import com.abhij33t.monkcommerce.model.Coupon;
 import com.abhij33t.monkcommerce.repository.BuyXGetYDetailsRepository;
 import com.abhij33t.monkcommerce.repository.BuyXGetYProductMappingRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,7 @@ public class FetchBuyXGetYCouponDetails implements FetchCouponDetailsStrategy {
 
     private final BuyXGetYDetailsRepository buyGetDiscountDetailsRepository;
     private final BuyXGetYProductMappingRepository buyXGetYProductMappingRepository;
+    private final ObjectMapper mapper;
 
     @Override
     public CouponDto fetchCouponDetails(Coupon coupon) {
@@ -39,11 +41,13 @@ public class FetchBuyXGetYCouponDetails implements FetchCouponDetailsStrategy {
         return CouponDto.builder()
                 .type(CouponTypeDto.BUY_GET)
                 .details(
-                        BxGyDetails.builder()
-                                .buyProductDetails(buyProductDetails)
-                                .getProductDetails(getProductDetails)
-                                .repetitionLimit(buyGetDiscountDetails.getRepetition_limit())
-                                .build())
+                        mapper.valueToTree(
+                                BxGyDetails.builder()
+                                        .buyProductDetails(buyProductDetails)
+                                        .getProductDetails(getProductDetails)
+                                        .repetitionLimit(buyGetDiscountDetails.getRepetition_limit())
+                                        .build())
+                )
                 .build();
     }
 }

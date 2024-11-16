@@ -8,10 +8,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Component
 @RequiredArgsConstructor
-public class ApplyCartCouponImpl implements ApplyCouponStrategy {
+public class ApplyProductCouponImpl implements ApplyCouponStrategy {
 
     private final ObjectMapper mapper;
 
@@ -21,16 +22,25 @@ public class ApplyCartCouponImpl implements ApplyCouponStrategy {
                 .map(p -> p.getQuantity() * p.getPrice())
                 .reduce(0.0, Double::sum);
 
+        ProductWiseDetails productWiseDetails = mapper.treeToValue(baseDetails, ProductWiseDetails.class);
         CartWithDiscountDto cartWithDiscountDto = new CartWithDiscountDto();
         cartWithDiscountDto.setProductDetails(new ArrayList<>());
 
+        AtomicReference<Double> totalDiscount = new AtomicReference<>(0d);
         cart.getProductDetails().stream()
-                .map(p -> new CartProductWithDiscountDetails(p.getProductId(), p.getQuantity(), p.getPrice(),0.0))
+                .map(p -> {
+                    if (p.getProductId().equals(productWiseDetails.getProductId())) {
+                        totalDiscount.set(p.getPrice() * productWiseDetails.getDiscount() / 100);
+                        return new CartProductWithDiscountDetails(p.getProductId(), p.getQuantity(), p.getPrice(), p.getPrice() * productWiseDetails.getDiscount() / 100);
+                    } else {
+                        return new CartProductWithDiscountDetails(p.getProductId(), p.getQuantity(), p.getPrice(), 0.0);
+                    }
+                })
                 .forEach(cartWithDiscountDto.getProductDetails()::add);
-        CartWiseDetails cartWiseDetails = mapper.treeToValue(baseDetails, CartWiseDetails.class);
-        cartWithDiscountDto.setTotalDiscount(cartWiseDetails.getDiscount() * cartTotal / 100);
+
+        cartWithDiscountDto.setTotalDiscount(totalDiscount.get());
         cartWithDiscountDto.setTotalPrice(cartTotal);
-        cartWithDiscountDto.setFinalPrice(cartTotal - cartWithDiscountDto.getTotalDiscount());
+        cartWithDiscountDto.setFinalPrice(cartTotal - totalDiscount.get());
         return cartWithDiscountDto;
     }
 }

@@ -1,3 +1,6 @@
+# SDE II Task for Monk Commerce 2024
+Coupons Management API for an E-commerce Website
+
 ## API Endpoints (Functional Requirements) :
 ### All cases mentioned in the problem statement are covered by the following API endpoints:
 *  POST /coupons: Create a new coupon.

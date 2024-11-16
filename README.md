@@ -19,5 +19,9 @@ updated cart with discounted prices for each item.
 * Makefile for building and running the application.
 * Implemented unit tests for all endpoints.
 
+## Design Patterns applied:
+* Strategy to create, delete and modify for different coupon types. (less coupling and easily extensive)
+* Chain of Responsibility for finding applicable coupons. (easily extensive)
+
 ### Assumptions
 For BuyXGeyYCoupon, only 1 product can be discounted.
